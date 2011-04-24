@@ -29,7 +29,8 @@
 			<attribute name="Class-Path" value="${lib.dir}/${lib.commons.io}"/>
 		</manifest>		
 		<jar destfile="${dist.dir}/${corpald.jar}" basedir="${build.dir}/${classes.dir}" manifest="build/manifest.mf" />		
-		<echo file="corpald.properties">corpus.name=icepahc
+		<echo file="corpald.properties"># Generated from ANT, edit in project.properties, not in corpald.properties
+corpus.name=${corpus.name}
 corpus.acronym=${corpus.acronym}
 corpus.longname=${corpus.longname}
 corpus.version=${corpus.version}
@@ -39,7 +40,8 @@ query.definitions=${query.definitions}
 query.root=${query.root}</echo>
 		
  	    <copy todir="${dist.dir}" >  
-			      <fileset dir="." includes="README"/> 	    	
+			      <fileset dir="." includes="README"/>
+	 	    	  <fileset dir="." includes="gpl.txt"/> 	    	
  	    	      <fileset dir="." includes="lgpl.txt"/>
  				  <fileset dir="." includes="welcome.txt"/>
  	 	    	  <fileset dir="." includes="corpald.properties"/> 	    	
@@ -177,16 +179,7 @@ java -jar ${corpald.jar}</echo>
 		</echo>
 		
 		<nsis script="corpald.nsi"/>
-		
-		<!--
-		<exec executable="${installjammer.exec}">
-		    <arg value="${installjammer.args}" />
-		</exec>
-
-	     <copy todir="release" >  			      
-				  <fileset dir="install_jammer_icepahc/output" includes="IcePaHC-0.4-Setup.exe" />  			
-	     </copy>
-	     -->			
+				
 	</target>
 	
 	<target name="release-mac" depends="archive">
@@ -220,8 +213,19 @@ java -jar ${corpald.jar}</echo>
 			    <include name="${corpald.jar}" />
 			</jarfileset> 
 			
-		</jarbundler>		
-	</target>
+		</jarbundler>
+		
+	    <echo file="${release.dir}/mac-info.txt">Mac notes:
+Corpald does not currently complete the last step of creating
+a Mac installer dmg file that give the user the expected 
+Mac-experience. 
+
+This is easy to do manually on a Mac:
+http://www.ploem.be/blog/?page_id=26
+	    
+The contents of the "mac" directory created by Corpald is
+exactly what you need to put in the dmg.</echo>
+</target>
 	
 	
 	   <!-- The Linux stuff below does not yet do anything useful! Working on it! -->
