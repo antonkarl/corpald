@@ -1,0 +1,59 @@
+<!-- Bold elements are required -->
+<launch4jConfig>
+  <headerType>gui</headerType>
+  <outfile>release/windows/icepahc-0-4-corpald.exe</outfile>
+  <jar>dist/corpald-icepahc-0.4.jar/</jar>
+  <dontWrapJar>false</dontWrapJar>
+  <errTitle>Problem with Java</errTitle>
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>http://www.linguist.is/icelandic_treebank</supportUrl>
+  <cmdLine></cmdLine>
+  <chdir>.</chdir>
+  <priority>normal</priority>
+  <customProcName>false</customProcName>
+  <stayAlive>false</stayAlive>
+  <icon>icons/corpald.ico</icon>
+  <classPath>
+    <mainClass>is.iclt.jcorpald.Corpald</mainClass>
+    <cp>lib/commons-io-2.0.1.jar</cp>
+  </classPath>
+  <singleInstance>
+    <mutexName>icepahc-0-4-corpald</mutexName>
+    <windowTitle>IcePaHC 0.4 Corpald</windowTitle>
+  </singleInstance> 
+  <jre>
+    <!-- Specify one of the following or both -->
+    <!-- <path>jre-6u24-windows-i586.exe</path> -->
+    <minVersion>1.5.0</minVersion>
+    <jdkPreference>preferJre</jdkPreference>
+    <!-- Heap sizes in MB and % of free memory -->    
+    <maxHeapSize>1024</maxHeapSize>
+  </jre>
+<!--
+  <splash>
+    <file>file</file>
+    <waitForWindow>true|false</waitForWindow>
+    <timeout>seconds [60]</timeout>
+    <timeoutErr>true|false</timeoutErr>
+  </splash>
+
+  <versionInfo>
+    <fileVersion>x.x.x.x</fileVersion>
+    <txtFileVersion>text</txtFileVersion>
+    <fileDescription>text</fileDescription>
+    <copyright>text</copyright>
+    <productVersion>x.x.x.x</productVersion>
+    <txtProductVersion>text</txtProductVersion>
+    <productName>text</productName>
+    <companyName>text</companyName>
+    <internalName>filename</internalName>
+    <originalFilename>filename.exe</originalFilename>
+  </versionInfo>
+  <messages>
+    <startupErr>text</startupErr>
+    <bundledJreErr>text</bundledJreErr>
+    <jreVersionErr>text</jreVersionErr>
+    <launcherErr>text</launcherErr>
+  </messages>
+-->
+</launch4jConfig>
