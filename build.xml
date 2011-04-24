@@ -124,7 +124,7 @@ java -jar ${corpald.jar}</echo>
 			;--------------------------------
 
 			; The name of the installer
-			name "${corpus.acronym} ${corpus.version} - ${corpus.longname}"
+			name "${corpus.acronym} ${corpus.version}"
 
 			; The file to write
 			outFile "${release.dir}/${corpus.name}-${corpus.version}-windows-setup.exe"
@@ -148,15 +148,15 @@ java -jar ${corpald.jar}</echo>
 			;# create the uninstaller
 			writeUninstaller "$INSTDIR\uninstall.exe"
 
-			createDirectory "$SMPROGRAMS\${corpus.name} ${corpus.version}"
-			createShortCut "$SMPROGRAMS\${corpus.name} ${corpus.version}\${corpus.name} ${corpus.version}.lnk" "$INSTDIR\${corpus.name}-${corpus.version}-corpald.exe"
-			createShortCut "$SMPROGRAMS\${corpus.name} ${corpus.version}\Uninstall ${corpus.name} ${corpus.version}.lnk" "$INSTDIR\uninstall.exe"
+			createDirectory "$SMPROGRAMS\${corpus.acronym} ${corpus.version}"
+			createShortCut "$SMPROGRAMS\${corpus.acronym} ${corpus.version}\${corpus.acronym} ${corpus.version}.lnk" "$INSTDIR\${corpus.acronym}-${corpus.version}-corpald.exe"
+			createShortCut "$SMPROGRAMS\${corpus.acronym} ${corpus.version}\Uninstall ${corpus.acronym} ${corpus.version}.lnk" "$INSTDIR\uninstall.exe"
 
 
-			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald" "DisplayName"\
+			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${corpus.name}-${corpus.version}" "DisplayName"\
 			"Corpald (remove only)"
 
-			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald" "UninstallString" \
+			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${corpus.name}-${corpus.version}" "UninstallString" \
 			"$INSTDIR\uninstall.exe"
 
 			sectionEnd ; end the section
@@ -166,15 +166,18 @@ java -jar ${corpald.jar}</echo>
 			 
 			    # first, delete the uninstaller
 			    delete "$INSTDIR\uninstall.exe"
-			 
+			    RMDIR /r "$INSTDIR"
+			
 			    # second, remove the link from the start menu
-			    delete "$SMPROGRAMS\Corpald.lnk"
-
-			    RMDIR /r "$SMPROGRAMS\Corpald"
+			    
+			    delete "$SMPROGRAMS\${corpus.acronym} ${corpus.version}\${corpus.acronym} ${corpus.version}.lnk"
+                delete "$SMPROGRAMS\${corpus.acronym} ${corpus.version}\Uninstall ${corpus.acronym} ${corpus.version}.lnk"
+			
+			    RMDIR /r "$SMPROGRAMS\${corpus.acronym} ${corpus.version}"
 
 			    # delete registry keys
-			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\Corpald"
-			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald"
+			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\${corpus.name}-${corpus.version}"
+			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\${corpus.name}-${corpus.version}"
 			sectionEnd			
 		</echo>
 		

@@ -6,3 +6,5 @@ release/*
 .settings
 .classpath
 .project
+corpald.nsi
+corpald.properties
