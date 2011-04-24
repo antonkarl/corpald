@@ -1,1 +1,0 @@
-java -jar corpald-icepahc-0.4.jar
