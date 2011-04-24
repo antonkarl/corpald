@@ -6,7 +6,7 @@
   <dontWrapJar>false</dontWrapJar>
   <errTitle>Problem with Java</errTitle>
   <downloadUrl>http://java.com/download</downloadUrl>
-  <supportUrl>http://www.linguist.is/icelandic_treebank</supportUrl>
+  <supportUrl>${corpus.url}</supportUrl>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>

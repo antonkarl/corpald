@@ -88,16 +88,105 @@ java -jar ${corpald.jar}</echo>
 		    classname="net.sf.launch4j.ant.Launch4jTask"
 		    classpath="${launch4j.dir}/launch4j.jar
 		        :${launch4j.dir}/xstream.jar" />		
-
-		<launch4j configFile="l4jconfig.xml" />
 		
+		<launch4j>			
+			<config headerType="gui" outfile="${release.dir}/windows/${corpus.name}-${corpus.version}-corpald.exe"				
+			         dontWrapJar="false" jarPath="${dist.dir}/${corpald.jar}"
+				     icon="icons/corpald.ico" errTitle="Problem with Java"
+				     downloadUrl="http://java.com/download"
+				     supportUrl="${corpus.url}"
+				     chdir="."
+				     stayAlive="false">
+				
+				<singleInstance mutexName="${corpus.name}-${corpus.version}-corpald"
+					  windowTitle="${corpus.acronym} ${corpus.version}">				    
+				</singleInstance> 
+				
+				<classPath mainClass="is.iclt.jcorpald.Corpald">
+				        <cp>./lib/commons-io-2.0.1.jar</cp>
+				    </classPath>				
+				    <jre minVersion="1.5.0"
+				    	 jdkPreference="preferJre"
+				    	 maxHeapSize="1024" />				    								
+			</config>				
+		</launch4j>		
+		
+		<taskdef name="nsis" classname="com.danielreese.nsisant.Task"
+			                 classpath="lib/nsisant-1.3.jar">
+		</taskdef>
+		<echo file="corpald.nsi">; corpald.nsi
+			;
+			; GENERATED from ANT script - edit in build.xml, NOT in corpald.nsi!
+			;
+
+			;--------------------------------
+
+			; The name of the installer
+			name "${corpus.acronym} ${corpus.version} - ${corpus.longname}"
+
+			; The file to write
+			outFile "${release.dir}/${corpus.name}-${corpus.version}-windows-setup.exe"
+
+			; The default installation directory
+			installDir $PROGRAMFILES\${corpus.name}-${corpus.version}
+
+			; The text to prompt the user to enter a directory
+			dirText "This will install ${corpus.acronym} on your computer. Choose a directory"
+
+			;--------------------------------
+
+			; The stuff to install
+			Section "" ;No components page, name is not important
+
+			; Set output path to the installation directory.
+			setOutPath $INSTDIR
+
+			; Put files there
+			File /r /x *.icns ${release.dir}/windows/*
+			;# create the uninstaller
+			writeUninstaller "$INSTDIR\uninstall.exe"
+
+			createDirectory "$SMPROGRAMS\${corpus.name} ${corpus.version}"
+			createShortCut "$SMPROGRAMS\${corpus.name} ${corpus.version}\${corpus.name} ${corpus.version}.lnk" "$INSTDIR\${corpus.name}-${corpus.version}-corpald.exe"
+			createShortCut "$SMPROGRAMS\${corpus.name} ${corpus.version}\Uninstall ${corpus.name} ${corpus.version}.lnk" "$INSTDIR\uninstall.exe"
+
+
+			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald" "DisplayName"\
+			"Corpald (remove only)"
+
+			WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald" "UninstallString" \
+			"$INSTDIR\uninstall.exe"
+
+			sectionEnd ; end the section
+
+			# uninstaller section start
+			section "uninstall"
+			 
+			    # first, delete the uninstaller
+			    delete "$INSTDIR\uninstall.exe"
+			 
+			    # second, remove the link from the start menu
+			    delete "$SMPROGRAMS\Corpald.lnk"
+
+			    RMDIR /r "$SMPROGRAMS\Corpald"
+
+			    # delete registry keys
+			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\Corpald"
+			    DeleteRegKey HKEY_LOCAL_MACHINE "Software\Microsoft\Windows\CurrentVersion\Uninstall\Corpald"
+			sectionEnd			
+		</echo>
+		
+		<nsis script="corpald.nsi"/>
+		
+		<!--
 		<exec executable="${installjammer.exec}">
 		    <arg value="${installjammer.args}" />
 		</exec>
 
 	     <copy todir="release" >  			      
 				  <fileset dir="install_jammer_icepahc/output" includes="IcePaHC-0.4-Setup.exe" />  			
-	     </copy>			
+	     </copy>
+	     -->			
 	</target>
 	
 	<target name="release-mac" depends="archive">
@@ -133,6 +222,9 @@ java -jar ${corpald.jar}</echo>
 			
 		</jarbundler>		
 	</target>
+	
+	
+	   <!-- The Linux stuff below does not yet do anything useful! Working on it! -->
 	
 	   <!-- register ant "deb" task -->
 
