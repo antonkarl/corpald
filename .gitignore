@@ -1,4 +1,8 @@
 build/*
 bin/*
+dist/*
 release/*
 *.exe
+.settings
+.classpath
+.project
