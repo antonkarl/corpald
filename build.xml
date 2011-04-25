@@ -1,5 +1,6 @@
 <?xml version="1.0" ?>
 <project name="corpald" default="release-java">
+	<property file="custom.properties" />			
 	<property file="project.properties" />			
 	<path id="compile.classpath">
 		<fileset dir="${lib.dir}">
@@ -196,7 +197,7 @@ java -jar ${corpald.jar}</echo>
 		<jarbundler dir="${release.dir}/${release.mac.dir}"
 		            name="${corpus.name}-${corpus.version}"
 		            mainclass="is.iclt.jcorpald.Corpald"
-					stubfile="JavaApplicationStub"
+					stubfile="macfiles/JavaApplicationStub"
 					version="${corpus.version}"
 			        icon="${mac.icon}"
 			        bundleid="is.iclt.jcorpald.Corpald"
@@ -233,7 +234,7 @@ exactly what you need to put in the dmg.</echo>
 	
 	   <!-- The Linux stuff below does not yet do anything useful! Working on it! -->
 	
-	   <!-- register ant "deb" task -->
+	   <!-- register ant "deb" task 
 
 	<path id="ant-deb.classpath">
         <fileset dir="lib" includes="ant-deb-0.0.1.jar"/>
@@ -244,9 +245,7 @@ exactly what you need to put in the dmg.</echo>
 	
 
 	    <taskdef name="desktopEntry" classname="com.googlecode.ant_deb_task.DesktopEntry" classpathref="ant-deb.classpath"/>
-	
-	    
-	    <!-- very basic deb target --> 
+		    	 
 	    <target name="release-linux" depends="archive">
 	        <deb 
 	            package="${corpus.name}"
@@ -262,7 +261,8 @@ exactly what you need to put in the dmg.</echo>
 	        </tarfileset>
 	        </deb>
 	    </target>	
-		
+	-->
+	
 	<target name="clean">
 		<delete dir="${build.dir}" />
 		<delete dir="${dist.dir}" />
